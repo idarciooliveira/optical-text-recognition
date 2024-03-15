@@ -1,4 +1,5 @@
 'use client'
+import DragDropZone from "@/components/drag-drop-zone";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -9,10 +10,12 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
+
 export default function Home() {
+
   return (
     <div className="w-full flex min-h-screen flex-col">
-      <nav className="bg-red-100 w-full h-10 flex items-center p-4">
+      <nav className="w-full h-10 flex items-center p-4">
         <NavigationMenu>
           <NavigationMenuList >
             <NavigationMenuItem>
@@ -31,11 +34,16 @@ export default function Home() {
           Extract Text from Image
         </h2>
         <p className="text-center leading-7 text-md">
-          An online image to text converter to extract text from images.
+          An online image to text converter to extract text from images. <br />
           Upload your photo, to get text file instantly.
         </p>
+
+        <div className="flex items-center justify-center">
+          <DragDropZone />
+        </div>
       </main>
 
     </div>
   );
 }
+
