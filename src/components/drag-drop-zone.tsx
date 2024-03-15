@@ -1,5 +1,6 @@
 'use client'
 
+import ExtractText from '@/lib/tesseract';
 import React, { useState } from 'react'
 import Dropzone, { Accept, FileRejection } from 'react-dropzone'
 import { toast } from 'sonner';
@@ -10,20 +11,37 @@ const supportedFiles: Accept = {
 
 export default function DragDropZone() {
 
-  const [file, setFile] = useState<File>();
+  const [text, setText] = useState('')
 
-  const handleOnDrop = (file: File[], rejection: FileRejection[]) => {
+  const handleOnDrop = async (file: File[], rejection: FileRejection[]) => {
 
-    if (rejection) {
-      rejection.forEach(rejectObj => {
-        rejectObj.errors.forEach(error => {
-          toast.error(error.message)
-        })
+    try {
+      if (rejection) {
+        rejection.forEach(rejectObj => {
+          rejectObj.errors.forEach(error => {
+            toast.error(error.message)
+          })
+        });
+      }
+
+      const result = ExtractText(file[0])
+
+      toast.promise(new Promise((resolve) => resolve(result)), {
+        loading: 'Extracting text...',
+        success: (text: any) => {
+          setText(text)
+          return `Text extracted successfully`
+        },
+        error: 'Error extracting text',
       });
-    }
 
-    setFile(file[0]);
+
+    } catch (error: any) {
+      toast.error(error)
+    }
   }
+
+
 
   return (
     <Dropzone
@@ -37,9 +55,10 @@ export default function DragDropZone() {
           <input {...getInputProps()} />
           <p>
             {
-              file ? file.name : 'Drop some file here, or click to select file'
+              text ? text : 'Drop some file here, or click to select file'
             }
           </p>
+          <p className='text-2xl'>{text}</p>
         </div>
       )}
     </Dropzone>

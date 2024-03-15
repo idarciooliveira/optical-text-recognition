@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="pt">
       <body className={cn('font-sans antialiased', roboto.className)}>
-        <Toaster richColors expand />
+        <Toaster richColors expand position="top-right" />
         {children}
       </body>
     </html>
