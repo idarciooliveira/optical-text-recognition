@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 const roboto = Roboto({
   variable: '--font-sans',
@@ -21,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt">
-      <body className={cn('font-sans antialiased', roboto.className)}>{children}</body>
+      <body className={cn('font-sans antialiased', roboto.className)}>
+        <Toaster richColors expand />
+        {children}
+      </body>
     </html>
   );
 }

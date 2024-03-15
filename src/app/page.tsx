@@ -7,6 +7,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -38,8 +39,12 @@ export default function Home() {
           Upload your photo, to get text file instantly.
         </p>
 
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-3">
           <DragDropZone />
+          <Skeleton className="w-2/4 h-4" />
+          <Skeleton className="w-2/4 h-4" />
+          <Skeleton className="w-2/4 h-4" />
+          <Skeleton className="w-2/4 h-4" />
         </div>
       </main>
 

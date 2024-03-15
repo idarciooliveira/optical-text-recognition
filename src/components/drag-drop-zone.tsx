@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import Dropzone, { Accept } from 'react-dropzone'
+import React, { useState } from 'react'
+import Dropzone, { Accept, FileRejection } from 'react-dropzone'
+import { toast } from 'sonner';
 
 const supportedFiles: Accept = {
   'image/jpeg': ['.jpeg', '.png']
@@ -9,44 +10,36 @@ const supportedFiles: Accept = {
 
 export default function DragDropZone() {
 
-  const [files, setFiles] = useState<any[]>([]);
+  const [file, setFile] = useState<File>();
 
-  useEffect(() => {
-    return () => files.forEach(file => URL.revokeObjectURL(file.preview));
-  }, [])
+  const handleOnDrop = (file: File[], rejection: FileRejection[]) => {
 
-  // const handleOnDrop = (option: Accepted)=>{
+    if (rejection) {
+      rejection.forEach(rejectObj => {
+        rejectObj.errors.forEach(error => {
+          toast.error(error.message)
+        })
+      });
+    }
 
-  // }
+    setFile(file[0]);
+  }
 
   return (
     <Dropzone
-      maxSize={1024}
+      maxSize={15000000}
       maxFiles={1}
       autoFocus
       accept={supportedFiles}
-      onDrop={(file, rejct, event) => {
-        console.log(rejct)
-        console.log(file)
-        setFiles(file.map(file => Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        })));
-      }}>
+      onDrop={handleOnDrop}>
       {({ getRootProps, getInputProps }) => (
-        <div  {...getRootProps()} className="bg-zinc-50 text-zinc-500 border-dashed cursor-pointer border w-2/4 h-48 rounded-md text-center items-center justify-center flex">
+        <div  {...getRootProps()} className="bg-zinc-50 text-zinc-500 border-dashed cursor-pointer border w-2/4 h-32 rounded-md text-center items-center justify-center flex">
           <input {...getInputProps()} />
           <p>
-            Drag 'n' drop some files here, or click to select files
+            {
+              file ? file.name : 'Drop some file here, or click to select file'
+            }
           </p>
-          <div className='flex flex-row gap-10'>
-            {files.length > 0 && files.map(file => (
-              <img
-                className='w-32 h-10'
-                src={file.preview}
-                onLoad={() => { URL.revokeObjectURL(file.preview) }}
-              />
-            ))}
-          </div>
         </div>
       )}
     </Dropzone>
