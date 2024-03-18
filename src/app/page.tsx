@@ -88,7 +88,7 @@ export default function Home() {
         <p className='text-xl'>
           Powered by <Link className='underline' target='blank' href={'https://bit.ly/idarcio-oliveira'}>Idárcio Oliveira</Link>
         </p>
-        <Link target='_blank' href={'https://github.com/idarciooliveira/'}>
+        <Link target='_blank' href={'https://github.com/idarciooliveira/optical-text-recognition.git'}>
           <GitHubLogoIcon width={25} height={25} />
         </Link>
       </div>
